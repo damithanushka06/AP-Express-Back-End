@@ -87,6 +87,11 @@ public class AuthController {
                     roles));
   }
 
+  /**
+   * Method use for signup new user
+   * @param signUpRequest to SignupRequest
+   * @return ResponseEntity
+   */
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
