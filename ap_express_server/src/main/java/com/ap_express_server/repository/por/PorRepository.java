@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface PorRepository extends JpaRepository<PORMaster, Long> {
+public interface PorRepository extends JpaRepository<PORMaster, Integer> {
 
     /**
      * Retrieves a list of Purchase Order Records (PORs) along with related data,

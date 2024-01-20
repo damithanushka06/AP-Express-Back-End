@@ -11,7 +11,7 @@ import com.ap_express_server.models.user.User;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
   /**
    * Retrieves an optional user by their username.
    *
@@ -42,7 +42,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
    * @return a list of UserDTO objects containing the user information
    */
   @Query("SELECT new com.ap_express_server.models.user.UserDTO(u.id, u.username, u.password, u.email, u.employeeNo, " +
-          "u.roleId, u.roleName, ag.name, u.createdBy, u.createdDate, u.approvalGroupId) FROM User u JOIN ApprovalGroupDto ag " +
+          "u.roleId, u.roleName, ag.name, u.createdBy, u.createdDate, u.approvalGroupId) FROM User u LEFT JOIN ApprovalGroupDto ag " +
           "ON u.approvalGroupId = ag.id")
   List<UserDTO> getUserList();
 

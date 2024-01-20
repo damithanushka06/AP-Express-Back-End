@@ -1,5 +1,4 @@
 package com.ap_express_server.service.payment;
-
 import com.ap_express_server.models.bill.BillDto;
 import com.ap_express_server.models.dropdown.DropDownDto;
 import com.ap_express_server.models.payment.Payment;
@@ -41,7 +40,7 @@ public interface PaymentService {
      * @param billId to bill master id
      * @return Optionals content if is not exist given id returning empty content
      */
-    Optional<BillDto> getBillBalance(Long billId);
+    Optional<BillDto> getBillBalance(Integer billId);
 
     /**
      * Getting all payment list
@@ -56,5 +55,5 @@ public interface PaymentService {
      * @param paymentId The ID of the payment to void.
      * @return A ResponseEntity representing the HTTP response for the void operation.
      */
-    ResponseEntity<?> voidPayment(Long paymentId);
+    ResponseEntity<?> voidPayment(Integer paymentId);
 }

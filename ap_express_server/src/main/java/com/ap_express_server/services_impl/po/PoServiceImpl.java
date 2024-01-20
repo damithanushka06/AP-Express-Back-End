@@ -147,7 +147,7 @@ public class PoServiceImpl implements PoService {
      * @return An optional containing the Purchase Order detail if found, or an empty optional if not found.
      */
     @Override
-    public Optional<PoMaster> getPoDetailById(Long poId) {
+    public Optional<PoMaster> getPoDetailById(Integer poId) {
         List<PoItemInformationDto> poItemInformationList = poItemInformationRepository.findByPoId(poId);
         List<PoAccountInformationDto> poAccountInformationList = accountInformationRepository.findByPoId(poId);
         List<WorkflowConfig> workflowConfigs = workFlowRepository.findByDocumentIdAndDocumentTypeId(poId, DocumentTypeId.PO);
@@ -224,7 +224,7 @@ public class PoServiceImpl implements PoService {
      * @param poId to po master id
      */
     @Override
-    public void deletePODetailById(Long poId) {
+    public void deletePODetailById(Integer poId) {
         Optional<PoMaster> poMaster = poRepository.getPoDetailById(poId);
         if(poMaster.isPresent()){
            PoMaster po = poMaster.get();
@@ -292,7 +292,7 @@ public class PoServiceImpl implements PoService {
      * @param poId The ID of the PO to download the report for.
      * @return The downloaded PO report as a byte array.
      */
-    public byte[] downloadPoReport(Long poId) {
+    public byte[] downloadPoReport(Integer poId) {
         Optional<PoMaster> existingPoMasterOptional = poRepository.findById(poId);
 
         if (existingPoMasterOptional.isPresent()) {
@@ -320,7 +320,7 @@ public class PoServiceImpl implements PoService {
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFilePath);
 
         //set additional data
-        Long vendorId = (long) poMaster.getVendorId();
+        Integer vendorId = poMaster.getVendorId();
         Optional<Vendor> vendor = vendorRepository.findById(vendorId);
         if(vendor.isPresent()){
             Vendor vendorMaster= vendor.get();

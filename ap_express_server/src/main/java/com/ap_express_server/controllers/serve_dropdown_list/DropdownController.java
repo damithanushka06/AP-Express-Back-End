@@ -101,7 +101,7 @@ public class DropdownController {
      * @return the CommonResponse containing the account name
      */
     @GetMapping("account/get_name_by_id")
-    public CommonResponse getItemNameById(@RequestParam Long accId) {
+    public CommonResponse getItemNameById(@RequestParam Integer accId) {
         return accountService.getAccountNameByAccountId(accId);
     }
 
@@ -112,7 +112,7 @@ public class DropdownController {
      * @throws CustomException if an error occurs while retrieving the bill dropdown list
      */
     @GetMapping("dropdown/get_vendor_related_bill_list")
-    public List<DropDownDto> getVendorRelatedBillDropDownList(@RequestParam Long vendorId) throws
+    public List<DropDownDto> getVendorRelatedBillDropDownList(@RequestParam Integer vendorId) throws
             CustomException {
         return this.billService.getVendorRelatedActiveBillList(vendorId);
     }

@@ -73,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
      * @return to Account object
      */
     @Override
-    public Optional<Account> getAccountDetailById(Long accId) {
+    public Optional<Account> getAccountDetailById(Integer accId) {
         Optional<Account> account = accountRepository.findById(accId);
         if(account.isPresent()){
             Account acc = account.get();
@@ -88,7 +88,7 @@ public class AccountServiceImpl implements AccountService {
      * @param accId to account master id
      */
     @Override
-    public void deleteAccountDetailById(Long accId) {
+    public void deleteAccountDetailById(Integer accId) {
       accountRepository.deleteById(accId);
     }
 
@@ -129,7 +129,7 @@ public class AccountServiceImpl implements AccountService {
      * @throws NoSuchElementException if the account is not found
      */
     @Override
-    public CommonResponse getAccountNameByAccountId(Long accId) {
+    public CommonResponse getAccountNameByAccountId(Integer accId) {
         Optional<Account> account = accountRepository.findById(accId);
         if (account.isPresent()) {
             Account presentAccount = account.get();

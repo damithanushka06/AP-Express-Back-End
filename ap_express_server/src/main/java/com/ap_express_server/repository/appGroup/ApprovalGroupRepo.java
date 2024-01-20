@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ApprovalGroupRepo extends JpaRepository <ApprovalGroupDto, Long>{
+public interface ApprovalGroupRepo extends JpaRepository <ApprovalGroupDto, Integer>{
 
     @Query("select  new com.ap_express_server.models.dropdown.DropDownDto(apporvalGroup.id, " +
             "apporvalGroup.name) from ApprovalGroupDto apporvalGroup")

@@ -1,7 +1,7 @@
 package com.ap_express_server.controllers.por;
+import com.ap_express_server.constant.Notification.HttpUrlConstants;
 import com.ap_express_server.models.dropdown.DropDownDto;
 import com.ap_express_server.models.po.PoItemInformationDto;
-import com.ap_express_server.models.por.PORItemInformation;
 import com.ap_express_server.models.por.PORMaster;
 import com.ap_express_server.models.por.PorDto;
 import com.ap_express_server.service.por.PorService;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = HttpUrlConstants.FRONTEND_BASE_URL, maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth/")
 public class PorController {
@@ -48,7 +48,7 @@ public class PorController {
      * @param porId to por master id
      */
     @DeleteMapping("por/delete_por_detail_by_id")
-    public ResponseEntity<?> deleteUserById(@RequestParam Long porId) {
+    public ResponseEntity<?> deleteUserById(@RequestParam Integer porId) {
         porService.deletePORDetailById(porId);
         return ResponseEntity.ok().build();
     }
@@ -58,7 +58,7 @@ public class PorController {
      * @return to the service
      */
     @GetMapping("por/get_vendor_related_po_list")
-    public List<DropDownDto> getVendorRelatedPoList(@RequestParam int vendorId) {
+    public List<DropDownDto> getVendorRelatedPoList(@RequestParam Integer vendorId) {
         return porService.getVendorRelatedPoList(vendorId);
     }
     /**
@@ -68,7 +68,7 @@ public class PorController {
      * @return The list of PORItemInformation related to the given PO ID.
      */
     @GetMapping("por/get_po_related_item_list")
-    public List<PoItemInformationDto> getPORelatedItemList(@RequestParam Long poId) {
+    public List<PoItemInformationDto> getPORelatedItemList(@RequestParam Integer poId) {
         return porService.getPORelatedItemList(poId);
     }
 

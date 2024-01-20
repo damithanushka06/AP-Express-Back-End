@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface WorkFlowRepository extends JpaRepository<WorkflowConfig, Long> {
-    List<WorkflowConfig> findByDocumentIdAndDocumentTypeId(Long documentId, int documentTypeId);
+    List<WorkflowConfig> findByDocumentIdAndDocumentTypeId(Integer documentId, int documentTypeId);
 }

@@ -59,7 +59,7 @@ public class ApprovalGroupServiceImpl implements ApprovalGroupService {
      * @return to repository
      */
     @Override
-    public Optional<ApprovalGroupDto> getApprovalGroupById(Long id) {
+    public Optional<ApprovalGroupDto> getApprovalGroupById(Integer id) {
         return approvalGroupRepo.findById(id);
     }
 
@@ -69,7 +69,7 @@ public class ApprovalGroupServiceImpl implements ApprovalGroupService {
      */
     @Override
     public void updateApprovalGroup(ApprovalGroupDto groupEntity) {
-        Optional <ApprovalGroupDto> existingGroup = approvalGroupRepo.findById((long)groupEntity.getId());
+        Optional <ApprovalGroupDto> existingGroup = approvalGroupRepo.findById(groupEntity.getId());
         if(existingGroup.isPresent()){
             ApprovalGroupDto approvalGroupDto = existingGroup.get();
             approvalGroupDto.setName(groupEntity.getName());

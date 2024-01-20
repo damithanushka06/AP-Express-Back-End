@@ -1,27 +1,15 @@
 package com.ap_express_server.models.dropdown;
 
+import lombok.Data;
+
+import javax.persistence.criteria.CriteriaBuilder;
+
+@Data
 public class DropDownDto {
-    private Long id;
+    private Integer id;
     private String name;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public DropDownDto(Long id, String name) {
+    public DropDownDto(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

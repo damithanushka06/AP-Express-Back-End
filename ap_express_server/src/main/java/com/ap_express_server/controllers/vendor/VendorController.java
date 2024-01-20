@@ -55,12 +55,12 @@ public class VendorController {
      * @return to the service
      */
     @GetMapping("vendor/get_vendor_detail_by_id")
-    private Optional<Vendor> getVendorById(@RequestParam Long vendorId){
+    private Optional<Vendor> getVendorById(@RequestParam Integer vendorId){
         return vendorService.getVendorById(vendorId);
     }
 
     @DeleteMapping("vendor/delete_vendor_detail_by_id")
-   private ResponseEntity<?> deleteVendorById(@RequestParam Long vendorId){
+   private ResponseEntity<?> deleteVendorById(@RequestParam Integer vendorId){
         return vendorService.deleteVendorById(vendorId);
     }
 }

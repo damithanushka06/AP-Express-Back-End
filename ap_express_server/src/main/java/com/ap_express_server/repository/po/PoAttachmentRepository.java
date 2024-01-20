@@ -12,5 +12,5 @@ public interface PoAttachmentRepository extends JpaRepository<PoAdditionalAttach
      * @param poId The ID of the PO (Purchase Order).
      * @return A list of PoAdditionalAttachment objects containing the desired attachments.
      */
-    List<PoAdditionalAttachment> findByPoId(Long poId);
+    List<PoAdditionalAttachment> findByPoId(Integer poId);
 }

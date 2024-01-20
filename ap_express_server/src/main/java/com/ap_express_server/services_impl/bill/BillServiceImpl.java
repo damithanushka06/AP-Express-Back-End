@@ -148,7 +148,7 @@ public class BillServiceImpl implements BillService {
      * @return An optional containing the Bill Master detail if found, or an empty optional if not found.
      */
     @Override
-    public Optional<BillMaster> getBillMasterDetailById(Long billId) {
+    public Optional<BillMaster> getBillMasterDetailById(Integer billId) {
         return billRepository.getBillDetailById(billId)
                 .map(billMaster -> {
                     billMaster.setBillItemInformation(billItemRepository.findByBillId(billId));
@@ -175,7 +175,7 @@ public class BillServiceImpl implements BillService {
      * @param billId The ID of the Bill Master to delete.
      */
     @Override
-    public void deleteBillMasterById(Long billId) {
+    public void deleteBillMasterById(Integer billId) {
         Optional<BillMaster> billMaster = billRepository.findById(billId);
         if (billMaster.isPresent()) {
             BillMaster bill = billMaster.get();
@@ -223,7 +223,7 @@ public class BillServiceImpl implements BillService {
      * @return list of active bill list as DropDownDto
      */
     @Override
-    public List<DropDownDto> getVendorRelatedActiveBillList(Long vendorId) {
+    public List<DropDownDto> getVendorRelatedActiveBillList(Integer vendorId) {
         return this.billRepository.getVendorRelatedActiveBillList(vendorId);
     }
 

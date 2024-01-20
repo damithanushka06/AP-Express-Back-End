@@ -39,7 +39,7 @@ public interface VendorService {
      * @param id the ID of the vendor to retrieve
      * @return an optional containing the vendor if found, otherwise an empty optional
      */
-    Optional<Vendor> getVendorById(Long id);
+    Optional<Vendor> getVendorById(Integer id);
 
     /**
      * Deletes a vendor by its ID.
@@ -47,7 +47,7 @@ public interface VendorService {
      * @param id the ID of the vendor to delete
      * @return a response entity indicating the result of the deletion
      */
-    ResponseEntity<?> deleteVendorById(Long id);
+    ResponseEntity<?> deleteVendorById(Integer id);
 
     /**
      * Retrieves a list of vendors in a dropdown format.

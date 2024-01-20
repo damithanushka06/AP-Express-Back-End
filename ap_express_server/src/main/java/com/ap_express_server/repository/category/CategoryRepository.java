@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CategoryRepository extends JpaRepository <Category, Long>{
+public interface CategoryRepository extends JpaRepository <Category, Integer>{
 
     @Query("SELECT new com.ap_express_server.models.dropdown.DropDownDto(cat.id, cat.name) FROM Category cat")
     public List<DropDownDto> getCategoryList();

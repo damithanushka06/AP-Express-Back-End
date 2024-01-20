@@ -41,13 +41,13 @@ public interface AccountService {
      * @param accId to account master id
      * @return to Account
      */
-    Optional<Account> getAccountDetailById(Long accId);
+    Optional<Account> getAccountDetailById(Integer accId);
 
     /**
      * this method can be used to delete account detail by id
      * @param accId to account master id
      */
-    void deleteAccountDetailById(Long accId);
+    void deleteAccountDetailById(Integer accId);
 
     /**
      * this method can be used to update account detail by id
@@ -67,5 +67,5 @@ public interface AccountService {
      * @param accId to account id
      * @return to account name of given id
      */
-    CommonResponse getAccountNameByAccountId(@RequestParam Long accId);
+    CommonResponse getAccountNameByAccountId(@RequestParam Integer accId);
 }

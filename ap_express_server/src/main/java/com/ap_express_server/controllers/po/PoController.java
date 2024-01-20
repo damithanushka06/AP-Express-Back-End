@@ -6,6 +6,7 @@ import com.ap_express_server.service.po.PoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
@@ -39,7 +40,7 @@ public class PoController {
      * @return An optional containing the Purchase Order detail if found, or an empty optional if not found.
      */
     @GetMapping("po/get_po_detail_by_id")
-    public Optional<PoMaster> getPoDetailById(@RequestParam Long poId) {
+    public Optional<PoMaster> getPoDetailById(@RequestParam Integer poId) {
         return poService.getPoDetailById(poId);
     }
 
@@ -58,7 +59,7 @@ public class PoController {
      * @param poId to po master id
      */
     @DeleteMapping("po/delete_po_detail_by_id")
-    public ResponseEntity<?> deletePOById(@RequestParam Long poId) {
+    public ResponseEntity<?> deletePOById(@RequestParam Integer poId) {
         poService.deletePODetailById(poId);
         return ResponseEntity.ok().build();
     }
@@ -89,7 +90,7 @@ public class PoController {
      * @return The downloaded PO report as a byte array.
      */
     @GetMapping("po/download_po_report")
-    public byte[] downloadPoReport(@RequestParam Long poId) {
+    public byte[] downloadPoReport(@RequestParam Integer poId) {
         return poService.downloadPoReport(poId);
     }
 

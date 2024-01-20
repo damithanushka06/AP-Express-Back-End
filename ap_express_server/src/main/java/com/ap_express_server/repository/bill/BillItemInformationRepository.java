@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.List;
 
-public interface BillItemInformationRepository extends JpaRepository<BillItemInformation, Long> {
+public interface BillItemInformationRepository extends JpaRepository<BillItemInformation, Integer> {
 
     /**
      * Retrieves a list of BillItemInformationDto objects based on the provided billId.
@@ -16,6 +16,6 @@ public interface BillItemInformationRepository extends JpaRepository<BillItemInf
     @Query("SELECT NEW com.ap_express_server.models.bill.BillItemInformation(billItem.id, billItem.billId, " +
             "billItem.itemNo, billItem.qty, item.name, billItem.unitPrice, billItem.lineTotal, item.number) " +
             "FROM BillItemInformation billItem JOIN Item item ON billItem.itemNo = item.id WHERE billItem.billId = :billId")
-    List<BillItemInformation> findByBillId(@Param("billId") Long billId);
+    List<BillItemInformation> findByBillId(@Param("billId") Integer billId);
 
 }

@@ -52,7 +52,7 @@ public class ApprovalGroupController {
      * @param groupId to Approval group id
      */
     @GetMapping("appGroup/get_appGroup_detail_by_id")
-    public Optional<ApprovalGroupDto> getUserDetailById(@RequestParam Long groupId) {
+    public Optional<ApprovalGroupDto> getUserDetailById(@RequestParam Integer groupId) {
         return groupService.getApprovalGroupById(groupId);
     }
 

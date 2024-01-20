@@ -16,6 +16,6 @@ public interface BillAccountInformationRepository extends JpaRepository<BillAcco
     @Query("SELECT NEW com.ap_express_server.models.bill.BillAccountInformation(accBlll.id, accBlll.description, " +
             "accBlll.billId, accBlll.accountId, acc.name, accBlll.lineAmount, acc.number) " +
             "FROM BillAccountInformation accBlll JOIN Account acc ON accBlll.accountId = acc.id WHERE accBlll.billId = :billId")
-    List<BillAccountInformation> findByBillId(@Param("billId") Long billId);
+    List<BillAccountInformation> findByBillId(@Param("billId") Integer billId);
 
 }

@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
      * save user data in user repository
      */
     @Override
-    public User updateUser(User updatedUser, Long id) {
+    public User updateUser(User updatedUser, Integer id) {
         Optional<User> existingUser = userRepository.findById(id);
         if (existingUser.isPresent()) {
             User user = existingUser.get();
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
      * @return to the repo
      */
     @Override
-    public Optional<User> getUserDetailById(Long userId) {
+    public Optional<User> getUserDetailById(Integer userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
      * @param userId to user id
      */
     @Override
-    public void deleteUserDetailById(Long userId) {
+    public void deleteUserDetailById(Integer userId) {
         userRepository.deleteById(userId);
     }
 

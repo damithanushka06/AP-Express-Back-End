@@ -32,7 +32,7 @@ public interface PorService {
      * @param porId The ID of the POR detail to be deleted
      */
 
-    void deletePORDetailById(Long porId);
+    void deletePORDetailById(Integer porId);
 
     /**
      * Retrieves a list of vendor-related Purchase Order (PO) dropdown options.
@@ -40,7 +40,7 @@ public interface PorService {
      * @param vendorId The ID of the vendor
      * @return A list of DropDownDto objects representing vendor-related POs
      */
-    List<DropDownDto> getVendorRelatedPoList(int vendorId);
+    List<DropDownDto> getVendorRelatedPoList(Integer vendorId);
 
     /**
      * Retrieves the list of PORItemInformation related to a specific PO ID.
@@ -48,6 +48,6 @@ public interface PorService {
      * @param poId The ID of the PO.
      * @return The list of PORItemInformation related to the given PO ID.
      */
-    List<PoItemInformationDto> getPORelatedItemList(Long poId);
+    List<PoItemInformationDto> getPORelatedItemList(Integer poId);
 
 }

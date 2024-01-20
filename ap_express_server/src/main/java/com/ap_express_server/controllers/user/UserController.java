@@ -40,14 +40,14 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture, @ModelAttribute UserDTO userDTO) throws IOException {
         User user = new User(userDTO.getUsername(), userDTO.getEmail(), userDTO.getPassword());
         if (userDTO.getId() == null) {
-            userDTO.setId(0L); // Set a default value of 0
+            userDTO.setId(0); // Set a default value of 0
         }
         user.setEmployeeNo(userDTO.getEmployeeNo());
         user.setRoleId(userDTO.getRoleId());
         user.setApprovalGroupId(userDTO.getApprovalGroupId());
         user.setCreatedDate(LocalDate.now());
         Optional<Role> optionalRole = roleRepository.findById(userDTO.getRoleId());
-        Optional<ApprovalGroupDto> optionalGroup = approvalGroupRepo.findById((long)userDTO.getApprovalGroupId());
+        Optional<ApprovalGroupDto> optionalGroup = approvalGroupRepo.findById(userDTO.getApprovalGroupId());
         if (optionalRole.isPresent()) {
             Role role = optionalRole.get();
             user.setRoleName(role.getName().name());
@@ -95,7 +95,7 @@ public class UserController {
      * @param userId to user id
      */
     @GetMapping("user/get_user_detail_by_id")
-    public Optional<User> getUserDetailById(@RequestParam Long userId) {
+    public Optional<User> getUserDetailById(@RequestParam Integer userId) {
         return userService.getUserDetailById(userId);
     }
 
@@ -106,7 +106,7 @@ public class UserController {
      * @param userId to user id
      */
     @DeleteMapping("user/delete_user_detail_by_id")
-    public ResponseEntity<?> deleteUserById(@RequestParam Long userId) {
+    public ResponseEntity<?> deleteUserById(@RequestParam Integer userId) {
         userService.deleteUserDetailById(userId);
         return ResponseEntity.ok().build();
     }
