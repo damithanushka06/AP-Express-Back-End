@@ -50,8 +50,11 @@ public class UserDTO {
         this.approvalGroupId = approvalGroupId;
     }
 
-    public UserDTO(Integer id, String username, String password, String email, String employeeNo, Integer roleId,
-                   String roleName, String approvalGroupName, Integer approvalGroupId) {
+    public UserDTO(Integer id, String username,
+                   String password, String email, String employeeNo,
+                   Integer roleId, String roleName, String approvalGroupName,
+                   String createdBy, LocalDate createdDate, byte[] proPic, Integer approvalGroupId,
+                   MultipartFile profilePicture) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -60,6 +63,10 @@ public class UserDTO {
         this.roleId = roleId;
         this.roleName = roleName;
         this.approvalGroupName = approvalGroupName;
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
+        this.proPic = proPic;
         this.approvalGroupId = approvalGroupId;
+        this.profilePicture = profilePicture;
     }
 }
