@@ -18,5 +18,5 @@ public interface PoAccountInformationRepository extends JpaRepository<PoAccountI
     @Query("select new com.ap_express_server.models.po.PoAccountInformationDto(poAcc.id, poAcc.description" +
             ", poAcc.poId, poAcc.accountId, acc.name, poAcc.lineAmount) from PoAccountInformation poAcc join " +
             "Account acc on poAcc.accountId = acc.id where poAcc.poId =:poId")
-    List<PoAccountInformationDto> findByPoId(@Param("poId") Long poId);
+    List<PoAccountInformationDto> findByPoId(@Param("poId") Integer poId);
 }

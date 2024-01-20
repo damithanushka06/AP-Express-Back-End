@@ -26,7 +26,7 @@ public interface PoService {
      * @param poId The ID of the Purchase Order to retrieve.
      * @return An optional containing the Purchase Order detail if found, or an empty optional if not found.
      */
-    Optional<PoMaster> getPoDetailById(Long poId);
+    Optional<PoMaster> getPoDetailById(Integer poId);
 
     /**
      * Retrieves all pos
@@ -38,7 +38,7 @@ public interface PoService {
      * delete po by id
      * @param poId to po master id
      */
-    void deletePODetailById(Long poId);
+    void deletePODetailById(Integer poId);
 
     /**
      * Update a new Purchase Order (PO) based on the provided PO Master object.
@@ -60,5 +60,5 @@ public interface PoService {
      * @param poId The ID of the PO to generate the report for.
      * @return The downloaded PO report as a byte array.
      */
-    byte[] downloadPoReport(Long poId);
+    byte[] downloadPoReport(Integer poId);
 }

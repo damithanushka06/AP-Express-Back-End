@@ -1,9 +1,12 @@
 package com.ap_express_server.models.common;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "common_workflow_config")
+@Data
 public class WorkflowConfig {
 
     @Id
@@ -12,7 +15,7 @@ public class WorkflowConfig {
 
     private int documentTypeId;
 
-    private Long documentId;
+    private Integer documentId;
 
     private int groupId;
 
@@ -21,60 +24,4 @@ public class WorkflowConfig {
     private String createdBy;
 
     private Date createdDate;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public int getDocumentTypeId() {
-        return documentTypeId;
-    }
-
-    public void setDocumentTypeId(int documentTypeId) {
-        this.documentTypeId = documentTypeId;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Long getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(Long documentId) {
-        this.documentId = documentId;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 }

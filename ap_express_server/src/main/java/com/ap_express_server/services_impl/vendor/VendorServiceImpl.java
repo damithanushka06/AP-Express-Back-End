@@ -73,7 +73,7 @@ public class VendorServiceImpl implements VendorService {
      */
 
     @Override
-    public Optional<Vendor> getVendorById(Long id) {
+    public Optional<Vendor> getVendorById(Integer id) {
         Optional<Vendor> vendor = vendorRepository.findById(id);
         if(vendor.isPresent()){
             return vendorRepository.findById(id);
@@ -87,7 +87,7 @@ public class VendorServiceImpl implements VendorService {
      * @return to the repo
      */
     @Override
-    public ResponseEntity<?> deleteVendorById(Long id) {
+    public ResponseEntity<?> deleteVendorById(Integer id) {
         Optional<Vendor> vendor = vendorRepository.findById(id);
         if(vendor.isPresent()){
             vendorRepository.deleteById(id);

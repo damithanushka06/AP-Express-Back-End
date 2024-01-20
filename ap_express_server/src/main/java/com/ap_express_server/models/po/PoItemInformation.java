@@ -1,15 +1,18 @@
 package com.ap_express_server.models.po;
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "po_item_information")
+@Data
 public class PoItemInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "po_id")
-    private Long poId;
+    private Integer poId;
 
     @Column(name = "item_no")
     private int itemNo;
@@ -23,7 +26,7 @@ public class PoItemInformation {
 
     @Column(name = "line_total")
     private float lineTotal;
-    public PoItemInformation(Long id, Long poId, int itemId, int qty, float unitPrice, float lineTotal) {
+    public PoItemInformation(Integer id, Integer poId, int itemId, int qty, float unitPrice, float lineTotal) {
         this.id = id;
         this.poId = poId;
         this.itemNo = itemId;
@@ -34,61 +37,5 @@ public class PoItemInformation {
 
     public PoItemInformation() {
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getPoId() {
-        return poId;
-    }
-
-    public void setPoId(Long poId) {
-        this.poId = poId;
-    }
-
-    public int getItemNo() {
-        return itemNo;
-    }
-
-    public void setItemNo(int itemNo) {
-        this.itemNo = itemNo;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
-
-    public float getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(float unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public float getLineTotal() {
-        return lineTotal;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public void setLineTotal(float lineTotal) {
-        this.lineTotal = lineTotal;
     }
 }

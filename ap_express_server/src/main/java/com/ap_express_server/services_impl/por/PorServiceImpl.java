@@ -105,7 +105,7 @@ public class PorServiceImpl implements PorService {
      * @param porId to por master id
      */
     @Override
-    public void deletePORDetailById(Long porId) {
+    public void deletePORDetailById(Integer porId) {
         Optional<PORMaster> porMaster = porRepository.findById(porId);
         if(porMaster.isPresent()){
             PORMaster por = porMaster.get();
@@ -120,7 +120,7 @@ public class PorServiceImpl implements PorService {
      * @return The list of vendor-related PO dropdown options.
      */
     @Override
-    public List<DropDownDto> getVendorRelatedPoList(int vendorId) {
+    public List<DropDownDto> getVendorRelatedPoList(Integer vendorId) {
         // Call the porRepository's getVendorRelatedPoList method to retrieve vendor-related PO dropdown options
 
         // Return the list of vendor-related PO dropdown options
@@ -134,7 +134,7 @@ public class PorServiceImpl implements PorService {
      * @return The list of PORItemInformation related to the given PO ID.
      */
     @Override
-    public List<PoItemInformationDto> getPORelatedItemList(Long poId) {
+    public List<PoItemInformationDto> getPORelatedItemList(Integer poId) {
         return poItemInformationRepository.findByPoId(poId);
     }
 }

@@ -77,7 +77,7 @@ public class ItemServiceImpl implements ItemService {
      * @param itemId to item master id
      */
     @Override
-    public Optional<Item> getItemDetailById(Long itemId) {
+    public Optional<Item> getItemDetailById(Integer itemId) {
         Optional<Item> item = itemRepository.findById(itemId);
         if (item.isPresent()) {
             Item getItem = item.get();
@@ -93,7 +93,7 @@ public class ItemServiceImpl implements ItemService {
      * @param itemId to item master id
      */
     @Override
-    public void deleteItemDetailById(Long itemId) {
+    public void deleteItemDetailById(Integer itemId) {
         itemRepository.deleteById(itemId);
     }
 
@@ -132,7 +132,7 @@ public class ItemServiceImpl implements ItemService {
      * @return string name
      */
     @Override
-    public CommonResponse getItemNameById(Long id) {
+    public CommonResponse getItemNameById(Integer id) {
         Optional<Item> item = itemRepository.findById(id);
         if (item.isPresent()) {
             Item presentItem = item.get();

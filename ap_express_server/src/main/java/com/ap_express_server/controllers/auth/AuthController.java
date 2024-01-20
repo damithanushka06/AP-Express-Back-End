@@ -2,12 +2,17 @@ package com.ap_express_server.controllers.auth;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.ap_express_server.common_utitlity.CommonNumber;
+import com.ap_express_server.common_utitlity.GeneralConstants;
+import com.ap_express_server.constant.Notification.ClientNotification;
+import com.ap_express_server.constant.Notification.HttpUrlConstants;
 import com.ap_express_server.exception.token.TokenRefreshException;
 import com.ap_express_server.models.token.RefreshToken;
 import com.ap_express_server.payload.request.LoginRequest;
@@ -21,11 +26,13 @@ import com.ap_express_server.services_impl.user.UserDetailsImpl;
 import com.ap_express_server.service.jwt.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,9 +45,9 @@ import com.ap_express_server.models.role.ERole;
 import com.ap_express_server.models.role.Role;
 import com.ap_express_server.models.user.User;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = HttpUrlConstants.FRONTEND_BASE_URL, maxAge = 3600, allowCredentials="true")
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(HttpUrlConstants.API_AUTH_BASE_URL)
 public class AuthController {
   @Autowired
   AuthenticationManager authenticationManager;
@@ -60,7 +67,7 @@ public class AuthController {
   @Autowired
   RefreshTokenService refreshTokenService;
 
-  @PostMapping("/signin")
+  @PostMapping(HttpUrlConstants.SIGN_IN_URL)
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager
@@ -75,7 +82,7 @@ public class AuthController {
 
     ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken());
     List<String> roles = userDetails.getAuthorities().stream()
-        .map(item -> item.getAuthority())
+        .map(GrantedAuthority::getAuthority)
         .collect(Collectors.toList());
 
     return ResponseEntity.ok()
@@ -92,17 +99,16 @@ public class AuthController {
    * @param signUpRequest to SignupRequest
    * @return ResponseEntity
    */
-  @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+  @PostMapping(HttpUrlConstants.SIGN_UP_URL)
+  public ResponseEntity<Object> registerUser(@RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-      return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+      return new ResponseEntity<>(new MessageResponse(ClientNotification.USERNAME_ALREADY_TAKEN), HttpStatus.CONFLICT);
     }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-      return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+      return new ResponseEntity<>(new MessageResponse(ClientNotification.EMAIL_ALREADY_TAKEN), HttpStatus.CONFLICT);
     }
 
-    // Create new user's account
     User user = new User(signUpRequest.getUsername(),
                          signUpRequest.getEmail(),
                          encoder.encode(signUpRequest.getPassword()));
@@ -111,43 +117,18 @@ public class AuthController {
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {
-      Role userRole = (Role) roleRepository.findByName(ERole.ROLE_USER)
-          .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-      roles.add(userRole);
-    } else {
-      strRoles.forEach(role -> {
-        switch (role) {
-        case "admin":
-          Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(adminRole);
-
-          break;
-        case "mod":
-          Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(modRole);
-
-          break;
-        default:
-          Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(userRole);
-        }
-      });
-    }
-
-    user.setRoles(roles);
+      roles.add(new Role(CommonNumber.ROLE_USER, ERole.ROLE_USER));
+      user.setRoles(roles);
+      }
     userRepository.save(user);
-
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    return ResponseEntity.ok(new MessageResponse(ClientNotification.USER_REGISTER_SUCCESSFULLY));
   }
 
-  @PostMapping("/signout")
+  @PostMapping(HttpUrlConstants.SIGN_OUT_URL)
   public ResponseEntity<?> logoutUser() {
     Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (principle.toString() != "anonymousUser") {
-      Long userId = ((UserDetailsImpl) principle).getId();
+    if (!Objects.equals(principle.toString(), GeneralConstants.ANONYMOUS_USER_ROLE)) {
+      Integer userId = ((UserDetailsImpl) principle).getId();
       refreshTokenService.deleteByUserId(userId);
     }
 
@@ -157,14 +138,14 @@ public class AuthController {
     return ResponseEntity.ok()
             .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
             .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
-            .body(new MessageResponse("You've been signed out!"));
+            .body(new MessageResponse(ClientNotification.SIGNED_OUT_MESSAGE));
   }
 
-  @PostMapping("/refreshtoken")
+  @PostMapping(HttpUrlConstants.REFRESH_TOKEN_URL)
   public ResponseEntity<?> refreshtoken(HttpServletRequest request) {
     String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
 
-    if ((refreshToken != null) && (refreshToken.length() > 0)) {
+    if ((refreshToken != null) && (!refreshToken.isEmpty())) {
       return refreshTokenService.findByToken(refreshToken)
               .map(refreshTokenService::verifyExpiration)
               .map(RefreshToken::getUser)
@@ -173,12 +154,12 @@ public class AuthController {
 
                 return ResponseEntity.ok()
                         .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                        .body(new MessageResponse("Token is refreshed successfully!"));
+                        .body(new MessageResponse(ClientNotification.TOKEN_REFRESH_SUCCESS));
               })
               .orElseThrow(() -> new TokenRefreshException(refreshToken,
-                      "Refresh token is not in database!"));
+                      ClientNotification.REFRESH_TOKEN_NOT_IN_DATABASE));
     }
 
-    return ResponseEntity.badRequest().body(new MessageResponse("Refresh Token is empty!"));
+    return ResponseEntity.badRequest().body(new MessageResponse(ClientNotification.EMPTY_REFRESH_TOKEN));
   }
 }

@@ -39,14 +39,14 @@ public interface ItemService {
      * this service used to load item details by item id
      * @return to the service impl
      */
-    Optional<Item> getItemDetailById(Long itemId);
+    Optional<Item> getItemDetailById(Integer itemId);
 
 
     /**
      * this service used to delete item
      * @param itemId to item master id
      */
-    void deleteItemDetailById(Long itemId);
+    void deleteItemDetailById(Integer itemId);
 
     /**
      * this service used to update item
@@ -67,5 +67,5 @@ public interface ItemService {
      * @param id to item id
      * @return item name
      */
-    CommonResponse getItemNameById(Long id);
+    CommonResponse getItemNameById(Integer id);
 }

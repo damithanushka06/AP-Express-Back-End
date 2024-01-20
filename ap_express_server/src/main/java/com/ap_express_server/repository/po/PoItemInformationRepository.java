@@ -19,6 +19,6 @@ public interface PoItemInformationRepository extends JpaRepository<PoItemInforma
     @Query("select new com.ap_express_server.models.po.PoItemInformationDto(poItem.id, poItem.poId," +
             "poItem.itemNo,item.number, item.name, poItem.qty, poItem.unitPrice, poItem.lineTotal) from PoItemInformation poItem " +
             "join Item item on poItem.itemNo = item.id where poItem.poId =:poId")
-            List<PoItemInformationDto> findByPoId(@Param("poId") Long poId);
+            List<PoItemInformationDto> findByPoId(@Param("poId") Integer poId);
 
 }

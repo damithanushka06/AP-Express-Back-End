@@ -62,7 +62,7 @@ public class PaymentServiceImpl implements PaymentService {
         Date cretedDate = new Date();
         payment.setCreatedBy(createdBy);
         payment.setCreatedDate(cretedDate);
-        Optional <BillMaster> billMaster = this.billRepository.getBillDetailById((long)payment.getBillId());
+        Optional <BillMaster> billMaster = this.billRepository.getBillDetailById(payment.getBillId());
         if(billMaster.isPresent()){
             BillMaster bill = billMaster.get();
             bill.setBillBalance(payment.getBillBalance());
@@ -81,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
      * @return An Optional containing the BillDto object with the payment amount and bill balance, or empty if not found.
      */
     @Override
-    public Optional<BillDto> getBillBalance(Long billId) {
+    public Optional<BillDto> getBillBalance(Integer billId) {
         return this.billRepository.getBillBalance(billId);
     }
 
@@ -95,7 +95,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public ResponseEntity<?> voidPayment(Long paymentId) {
+    public ResponseEntity<?> voidPayment(Integer paymentId) {
         Optional <Payment> payment = paymentRepository.findById(paymentId);
         if(payment.isPresent()){
             Payment pay = payment.get();

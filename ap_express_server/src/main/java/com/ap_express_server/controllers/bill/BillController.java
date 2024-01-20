@@ -1,4 +1,5 @@
 package com.ap_express_server.controllers.bill;
+import com.ap_express_server.constant.Notification.HttpUrlConstants;
 import com.ap_express_server.models.bill.BillDto;
 import com.ap_express_server.models.bill.BillMaster;
 import com.ap_express_server.models.chart.ChartData;
@@ -9,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = HttpUrlConstants.FRONTEND_BASE_URL, maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth/")
 public class BillController {
@@ -38,7 +39,7 @@ public class BillController {
      * @return An optional containing the BillMaster detail if found, or an empty optional if not found.
      */
     @GetMapping("/bill/get_bill_master_detail_by_id")
-    public Optional<BillMaster> getBillMasterDetailById(@RequestParam Long billId) {
+    public Optional<BillMaster> getBillMasterDetailById(@RequestParam Integer billId) {
         return billMasterService.getBillMasterDetailById(billId);
     }
 
@@ -57,7 +58,7 @@ public class BillController {
      * @return A response entity indicating the success of the deletion.
      */
     @DeleteMapping("/bill/delete_bill_master_by_id")
-    public ResponseEntity<?> deleteBillMasterById(@RequestParam Long billId) {
+    public ResponseEntity<?> deleteBillMasterById(@RequestParam Integer billId) {
         billMasterService.deleteBillMasterById(billId);
         return ResponseEntity.ok().build();
     }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface PoRepository extends JpaRepository<PoMaster, Long> {
+public interface PoRepository extends JpaRepository<PoMaster, Integer> {
 
     /**
      * Retrieves the PoMaster object for the specified poId.
@@ -18,7 +18,7 @@ public interface PoRepository extends JpaRepository<PoMaster, Long> {
     @Query("SELECT pm " +
             "FROM PoMaster pm " +
             "WHERE pm.id = :poId")
-    Optional<PoMaster> getPoDetailById(@Param("poId") Long poId);
+    Optional<PoMaster> getPoDetailById(@Param("poId") Integer poId);
 
 
     /**

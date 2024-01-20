@@ -1,4 +1,5 @@
 package com.ap_express_server.controllers.account;
+import com.ap_express_server.constant.Notification.HttpUrlConstants;
 import com.ap_express_server.models.account.Account;
 import com.ap_express_server.models.account.AccountDto;
 import com.ap_express_server.models.dropdown.DropDownDto;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = HttpUrlConstants.FRONTEND_BASE_URL, maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth/")
 public class AccountController {
@@ -57,7 +58,7 @@ public class AccountController {
      * @param accId id to Account master id
      */
     @GetMapping("account/get_account_detail_by_id")
-    public Optional<Account> getAccountDetailById(@RequestParam Long accId) {
+    public Optional<Account> getAccountDetailById(@RequestParam Integer accId) {
         return accountService.getAccountDetailById(accId);
     }
 
@@ -67,7 +68,7 @@ public class AccountController {
      * @param accId to Account id
      */
     @DeleteMapping("account/delete_account_detail_by_id")
-    public ResponseEntity<?> deleteAccountById(@RequestParam Long accId) {
+    public ResponseEntity<?> deleteAccountById(@RequestParam Integer accId) {
         accountService.deleteAccountDetailById(accId);
         return ResponseEntity.ok().build();
     }

@@ -25,7 +25,7 @@ public interface BillService {
      * @param billId The ID of the BillMaster to retrieve.
      * @return An optional containing the BillMaster detail if found, or an empty optional if not found.
      */
-    Optional<BillMaster> getBillMasterDetailById(Long billId);
+    Optional<BillMaster> getBillMasterDetailById(Integer billId);
 
     /**
      * Retrieves all BillMasters.
@@ -37,7 +37,7 @@ public interface BillService {
      * Deletes the BillMaster with the given ID.
      * @param billId The ID of the BillMaster to delete.
      */
-    void deleteBillMasterById(Long billId);
+    void deleteBillMasterById(Integer billId);
 
     /**
      * Retrieves update a BillMaster.
@@ -51,7 +51,7 @@ public interface BillService {
      * @param vendorId to vendor id
      * @return to bill active dropdown list
      */
-    List<DropDownDto> getVendorRelatedActiveBillList(Long vendorId);
+    List<DropDownDto> getVendorRelatedActiveBillList(Integer vendorId);
 
     /**
      * Retrieves a list of ApprovedBillChartData objects.

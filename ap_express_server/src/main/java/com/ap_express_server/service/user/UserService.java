@@ -21,7 +21,7 @@ public interface UserService {
      * @param user to user object
      * @return to the user object
      */
-    User updateUser(User user, Long userId);
+    User updateUser(User user, Integer userId);
 
     /**
      * service serve to all users
@@ -32,13 +32,13 @@ public interface UserService {
      * this method can be used to get user details
      * @param userId to user id
      */
-    Optional<User> getUserDetailById(Long userId);
+    Optional<User> getUserDetailById(Integer userId);
 
     /**
      * this method can be used to delete user details
      * @param userId to user id
      */
-    void deleteUserDetailById(Long userId);
+    void deleteUserDetailById(Integer userId);
 
     /**
      * service serve to user dropdown list

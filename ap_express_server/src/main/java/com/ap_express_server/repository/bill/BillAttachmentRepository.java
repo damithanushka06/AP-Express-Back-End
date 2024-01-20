@@ -10,6 +10,6 @@ public interface BillAttachmentRepository extends JpaRepository<BillAdditionalAt
      * @param billId The ID of the bill.
      * @return A list of BillAdditionalAttachment objects associated with the bill.
      */
-    List<BillAdditionalAttachment> findByBillId(Long billId);
+    List<BillAdditionalAttachment> findByBillId(Integer billId);
 
 }

@@ -2,6 +2,8 @@ package com.ap_express_server.service.appGroup;
 import com.ap_express_server.models.apGroup.ApprovalGroupDto;
 import com.ap_express_server.models.dropdown.DropDownDto;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +31,7 @@ public interface ApprovalGroupService {
     /**
      * Get approval group details using it's id
      */
-    Optional<ApprovalGroupDto> getApprovalGroupById(Long id);
+    Optional<ApprovalGroupDto> getApprovalGroupById(Integer id);
 
     /**
      * Update Approval group details

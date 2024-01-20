@@ -1,4 +1,5 @@
 package com.ap_express_server.controllers.item;
+import com.ap_express_server.constant.Notification.HttpUrlConstants;
 import com.ap_express_server.models.common.CommonResponse;
 import com.ap_express_server.models.dropdown.DropDownDto;
 import com.ap_express_server.models.item.Item;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = HttpUrlConstants.FRONTEND_BASE_URL, maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth/")
 public class ItemController {
@@ -58,7 +59,7 @@ public class ItemController {
      * @param itemId id to item master id
      */
     @GetMapping("item/get_item_detail_by_id")
-    public Optional<Item> getItemDetailById(@RequestParam Long itemId) {
+    public Optional<Item> getItemDetailById(@RequestParam Integer itemId) {
         return itemService.getItemDetailById(itemId);
     }
 
@@ -68,7 +69,7 @@ public class ItemController {
      * @param itemId to item id
      */
     @DeleteMapping("item/delete_item_detail_by_id")
-    public ResponseEntity<?> deleteItemById(@RequestParam Long itemId) {
+    public ResponseEntity<?> deleteItemById(@RequestParam Integer itemId) {
         itemService.deleteItemDetailById(itemId);
         return ResponseEntity.ok().build();
     }
@@ -83,7 +84,7 @@ public class ItemController {
      * this method can be used for get item list
      */
     @GetMapping("item/get_name_by_id")
-    public CommonResponse getItemNameById(@RequestParam Long itemId){
+    public CommonResponse getItemNameById(@RequestParam Integer itemId){
         return  itemService.getItemNameById(itemId);
     }
 

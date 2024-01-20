@@ -1,4 +1,5 @@
 package com.ap_express_server.controllers.payment;
+import com.ap_express_server.constant.Notification.HttpUrlConstants;
 import com.ap_express_server.models.bill.BillDto;
 import com.ap_express_server.models.dropdown.DropDownDto;
 import com.ap_express_server.models.payment.Payment;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = HttpUrlConstants.FRONTEND_BASE_URL, maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth/")
 public class PaymentController {
@@ -58,7 +59,7 @@ public class PaymentController {
      * @return An Optional containing the BillDto object with the payment amount and bill balance, or empty if not found.
      */
     @GetMapping("payment/get_bill_balance")
-    private Optional<BillDto> getBillBalance(@RequestParam Long billId) {
+    private Optional<BillDto> getBillBalance(@RequestParam Integer billId) {
         return paymentService.getBillBalance(billId);
     }
 
@@ -77,7 +78,7 @@ public class PaymentController {
      * @return ResponseEntity to contains http status
      */
     @DeleteMapping("payment/void_payment")
-    private ResponseEntity<?> voidPayment(@RequestParam Long paymentId){
+    private ResponseEntity<?> voidPayment(@RequestParam Integer paymentId){
         return paymentService.voidPayment(paymentId);
     }
 }
