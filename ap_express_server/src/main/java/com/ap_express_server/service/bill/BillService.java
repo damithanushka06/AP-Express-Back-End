@@ -1,4 +1,5 @@
 package com.ap_express_server.service.bill;
+import com.ap_express_server.common_utitlity.CustomException;
 import com.ap_express_server.models.bill.BillDto;
 import com.ap_express_server.models.bill.BillMaster;
 import com.ap_express_server.models.chart.ChartData;
@@ -18,7 +19,7 @@ public interface BillService {
      * @param billMaster The BillMaster object containing the information for the new BillMaster.
      * @return The created BillMaster object.
      */
-    ResponseEntity<Object> createBillMaster(BillMaster billMaster) throws IOException;
+    ResponseEntity<Object> createBillMaster(BillMaster billMaster) throws CustomException, IOException;
 
     /**
      * Retrieves the BillMaster detail by its ID.

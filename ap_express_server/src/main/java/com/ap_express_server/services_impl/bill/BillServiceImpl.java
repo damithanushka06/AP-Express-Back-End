@@ -1,8 +1,7 @@
 package com.ap_express_server.services_impl.bill;
 
-import com.ap_express_server.common_utitlity.DocumentTypeId;
-import com.ap_express_server.common_utitlity.LocalPath;
-import com.ap_express_server.common_utitlity.Status;
+import com.ap_express_server.common_utitlity.*;
+import com.ap_express_server.constant.Notification.HttpResponseMessage;
 import com.ap_express_server.models.bill.*;
 import com.ap_express_server.models.chart.ChartData;
 import com.ap_express_server.models.common.WorkflowConfig;
@@ -56,11 +55,12 @@ public class BillServiceImpl implements BillService {
      *
      * @param billMaster The Bill Master object containing the information for the new bill.
      * @return The created Bill Master object.
-     * @throws IOException if there is an error handling the files.
      */
     @Override
-    public ResponseEntity<Object> createBillMaster(BillMaster billMaster) throws IOException {
-        // Save the provided Bill Master object using the repository
+    public ResponseEntity<Object> createBillMaster(BillMaster billMaster) throws CustomException, IOException {
+        // Validate request object
+
+        validateBillObject(billMaster);
 
         // Set initial status and workflow details
         billMaster.setStatus(Status.STATUS_PENDING);
@@ -140,6 +140,25 @@ public class BillServiceImpl implements BillService {
 
         return ResponseEntity.ok().build();
     }
+
+
+    /**
+     * Validate Bill object
+     * @param billMaster to BillMaster
+     * @throws CustomException an exception
+     */
+    void validateBillObject(BillMaster billMaster) throws CustomException{
+        if (billMaster.getBillNo() == null) {
+            throw new  CustomException(HttpResponseMessage.INVOICE_DATE_CANNOT_BE_EMPTY, HttpStatus.MULTI_STATUS.value());
+        }
+        if (billMaster.getVendorId() == null) {
+            throw new CustomException(HttpResponseMessage.VENDOR_CANNOT_BE_EMPTY, HttpStatus.MULTI_STATUS.value());
+        }
+        if (billMaster.getBillDate() == null) {
+            throw new CustomException(HttpResponseMessage.BILL_DATE_CANNOT_BE_NULL, HttpStatus.MULTI_STATUS.value());
+        }
+    }
+
 
     /**
      * Retrieves the Bill Master detail by its ID.

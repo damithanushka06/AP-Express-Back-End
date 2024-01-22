@@ -19,7 +19,7 @@ public class BillMaster {
     private Integer id;
 
     private String billNo;
-    private int vendorId;
+    private Integer vendorId;
 
     private Date billDate;
 
