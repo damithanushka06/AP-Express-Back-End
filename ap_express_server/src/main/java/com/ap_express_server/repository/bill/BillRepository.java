@@ -47,7 +47,7 @@ public interface BillRepository extends JpaRepository<BillMaster, Integer> {
      * @return An Optional containing the BillDto object with the payment amount and bill balance, or empty if not found.
      */
     @Query("select new com.ap_express_server.models.bill.BillDto(bill.paymentAmount, bill.billBalance) " +
-            "from BillMaster bill")
+            "from BillMaster bill where bill.id = :billId")
     Optional<BillDto> getBillBalance(@Param("billId") Integer billId);
 
     /**

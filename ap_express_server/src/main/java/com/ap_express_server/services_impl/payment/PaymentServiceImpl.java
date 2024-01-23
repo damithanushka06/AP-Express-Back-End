@@ -65,7 +65,9 @@ public class PaymentServiceImpl implements PaymentService {
         Optional <BillMaster> billMaster = this.billRepository.getBillDetailById(payment.getBillId());
         if(billMaster.isPresent()){
             BillMaster bill = billMaster.get();
-            bill.setBillBalance(payment.getBillBalance());
+            float balance = bill.getBillBalance() - payment.getAmount();
+            bill.setBillBalance(balance);
+            payment.setBillBalance(balance);
             bill.setPaymentAmount(payment.getAmount());
             billRepository.save(bill);
         }

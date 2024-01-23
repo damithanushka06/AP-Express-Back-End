@@ -120,6 +120,8 @@ public class BillServiceImpl implements BillService {
         billMaster.setItemTotal(totalLineItemAmount);
         billMaster.setAccountTotal(totalLineAccountAmount);
         billMaster.setBillAmount(total);
+        billMaster.setPaymentAmount(total);
+        billMaster.setBillBalance(total);
 
         // Save workflow related data
         List<WorkflowConfig> workflowConfigs = billMaster.getWorkflowDetails();
