@@ -6,10 +6,14 @@ import com.ap_express_server.models.bill.*;
 import com.ap_express_server.models.chart.ChartData;
 import com.ap_express_server.models.common.WorkflowConfig;
 import com.ap_express_server.models.dropdown.DropDownDto;
+import com.ap_express_server.models.payment.PaymentMethod;
 import com.ap_express_server.repository.bill.BillAccountInformationRepository;
 import com.ap_express_server.repository.bill.BillAttachmentRepository;
 import com.ap_express_server.repository.bill.BillItemInformationRepository;
 import com.ap_express_server.repository.bill.BillRepository;
+import com.ap_express_server.repository.payment.PaymentRepository;
+import com.ap_express_server.repository.payment.PaymentTermRepository;
+import com.ap_express_server.repository.vendor.VendorRepository;
 import com.ap_express_server.repository.workflow.WorkFlowRepository;
 import com.ap_express_server.service.bill.BillService;
 import org.springframework.http.HttpStatus;
@@ -39,15 +43,26 @@ public class BillServiceImpl implements BillService {
 
     private final WorkFlowRepository workFlowRepository;
 
+    private final VendorRepository vendorRepository;
+
+    private final PaymentRepository paymentRepository;
+
+    private final PaymentTermRepository paymentTermRepository;
+
     public BillServiceImpl(BillRepository billRepository,
                            BillItemInformationRepository billItemRepository,
                            BillAccountInformationRepository billAccountInformationRepository,
-                           BillAttachmentRepository billAttachmentRepository, WorkFlowRepository workFlowRepository) {
+                           BillAttachmentRepository billAttachmentRepository, WorkFlowRepository workFlowRepository,
+                           VendorRepository vendorRepository, PaymentRepository paymentRepository,
+                           PaymentTermRepository paymentTermRepository) {
         this.billRepository = billRepository;
         this.billItemRepository = billItemRepository;
         this.billAccountInformationRepository = billAccountInformationRepository;
         this.billAttachmentRepository = billAttachmentRepository;
         this.workFlowRepository = workFlowRepository;
+        this.vendorRepository = vendorRepository;
+        this.paymentRepository = paymentRepository;
+        this.paymentTermRepository = paymentTermRepository;
     }
 
     /**
@@ -115,7 +130,7 @@ public class BillServiceImpl implements BillService {
             workflow.setCreatedDate(new Date());
             workFlowRepository.save(workflow);
         }
-
+        billMaster.setUserId(workflowConfigs.get(0).getUserId());
         // Save Bill attachments
         List<MultipartFile> files = billMaster.getFiles();
         for (MultipartFile file : files) {
@@ -144,12 +159,13 @@ public class BillServiceImpl implements BillService {
 
     /**
      * Validate Bill object
+     *
      * @param billMaster to BillMaster
      * @throws CustomException an exception
      */
-    void validateBillObject(BillMaster billMaster) throws CustomException{
+    void validateBillObject(BillMaster billMaster) throws CustomException {
         if (billMaster.getBillNo() == null) {
-            throw new  CustomException(HttpResponseMessage.INVOICE_DATE_CANNOT_BE_EMPTY, HttpStatus.MULTI_STATUS.value());
+            throw new CustomException(HttpResponseMessage.INVOICE_DATE_CANNOT_BE_EMPTY, HttpStatus.MULTI_STATUS.value());
         }
         if (billMaster.getVendorId() == null) {
             throw new CustomException(HttpResponseMessage.VENDOR_CANNOT_BE_EMPTY, HttpStatus.MULTI_STATUS.value());
@@ -168,14 +184,20 @@ public class BillServiceImpl implements BillService {
      */
     @Override
     public Optional<BillMaster> getBillMasterDetailById(Integer billId) {
-        return billRepository.getBillDetailById(billId)
-                .map(billMaster -> {
-                    billMaster.setBillItemInformation(billItemRepository.findByBillId(billId));
-                    billMaster.setBillAccountInformation(billAccountInformationRepository.findByBillId(billId));
-                    billMaster.setWorkflowDetails(workFlowRepository.findByDocumentIdAndDocumentTypeId(billId, DocumentTypeId.BILL));
-                    billMaster.setAttachments(billAttachmentRepository.findByBillId(billId));
-                    return billMaster;
-                });
+        Optional<BillMaster> billMasterOptional = billRepository.getBillDetailById(billId);
+        if (!billMasterOptional.isPresent()) {
+            new ResponseEntity<>(HttpResponseMessage.REQUESTED_BILL_IS_NOT_AVAILABLE,
+                    HttpStatus.valueOf(HttpStatus.MULTI_STATUS.value()));
+        } else {
+            BillMaster billMaster = billMasterOptional.get();
+            billMaster.setBillAccountInformation(billAccountInformationRepository.findByBillId(billMaster.getId()));
+            billMaster.setBillItemInformation(billItemRepository.findByBillId(billMaster.getId()));
+            billMaster.setWorkflowDetails(workFlowRepository.findByDocumentIdAndDocumentTypeId(billMaster.getId(),
+                    DocumentTypeId.BILL));
+            billMaster.setVendorName(vendorRepository.findById(billMaster.getVendorId()).get().getName());
+            billMaster.setPaymentTermName(paymentTermRepository.findPaymentTermById(billMaster.getTermId()).getName());
+        }
+        return billRepository.findById(billId);
     }
 
     /**
@@ -262,5 +284,27 @@ public class BillServiceImpl implements BillService {
             result.add(data);
         }
         return result;
+    }
+
+    /**
+     * Approve bill/approve and finalize
+     * @param billId to bill master id
+     * @return ResponseEntity<Object>
+     */
+    @Override
+    public ResponseEntity<Object> approveBill(Integer billId) {
+        Optional<BillMaster> billMasterOptional = getBillMasterDetailById(billId);
+        BillMaster billMaster = billMasterOptional.get();
+        List <WorkflowConfig> workflowConfigs = billMaster.getWorkflowDetails();
+        if(billMaster.getCurrentLevel() < billMaster.getTotalLevels()){
+            billMaster.setCurrentLevel(billMaster.getCurrentLevel() + 1);
+            billMaster.setUserId(workflowConfigs.get(billMaster.getCurrentLevel() - 1).getUserId());
+        } else if(billMaster.getCurrentLevel() > billMaster.getTotalLevels()){
+            return new ResponseEntity<>("Record is invalid", HttpStatus.MULTI_STATUS);
+        } else {
+            billMaster.setStatus(Status.STATUS_APPROVED);
+        }
+        billRepository.save(billMaster);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

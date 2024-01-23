@@ -10,5 +10,7 @@ public class HttpResponseMessage {
     public static final String DELIVERY_DATE_CANNOT_BE_NULL = "Delivery Date cannot be null.";
     public static final String VENDOR_CANNOT_BE_EMPTY = "Vendor cannot be empty.";
 
+    public static final String REQUESTED_BILL_IS_NOT_AVAILABLE = "Bill is not found.";
+
 
 }

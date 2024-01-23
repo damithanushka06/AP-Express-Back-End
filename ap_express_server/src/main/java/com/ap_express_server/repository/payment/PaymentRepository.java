@@ -22,6 +22,4 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
             "join BillMaster bill on bill.id = payment.billId")
     List<PaymentDto> getAllPayments();
 
-
-
 }

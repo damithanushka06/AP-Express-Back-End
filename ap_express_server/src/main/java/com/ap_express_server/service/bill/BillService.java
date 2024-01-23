@@ -61,4 +61,10 @@ public interface BillService {
      */
     List<ChartData> getApprovedBills();
 
+    /**
+     * Approve Bill/Approve and finalize
+     * @param billId to bill master id
+     * @return ResponseEntity<Object>
+     */
+    ResponseEntity<Object> approveBill(Integer billId);
 }

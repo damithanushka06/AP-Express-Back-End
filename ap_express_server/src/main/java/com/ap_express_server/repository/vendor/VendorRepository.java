@@ -27,4 +27,5 @@ public interface VendorRepository extends JpaRepository<Vendor, Integer> {
     @Query("SELECT NEW com.ap_express_server.models.dropdown.DropDownDto(vendor.id, vendor.name) from Vendor vendor")
     List<DropDownDto> getVendorDropDownList();
 
+
 }

@@ -86,4 +86,14 @@ public class BillController {
     }
 
 
+    /**
+     * Approve/Approve and finalize bill
+     * @param billId to bill master id
+     * @return ResponseEntity<Object>
+     */
+    @PostMapping("/bill/bill_approve")
+    public ResponseEntity<Object> approveBill(@RequestParam Integer billId){
+        return billMasterService.approveBill(billId);
+    }
+
 }

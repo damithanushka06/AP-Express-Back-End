@@ -29,7 +29,7 @@ public interface BillRepository extends JpaRepository<BillMaster, Integer> {
      * @return A list of BillDto objects representing the bills.
      */
     @Query("SELECT NEW com.ap_express_server.models.bill.BillDto(billMst.id, billMst.billNo, billMst.vendorId, " +
-            "ven.name, DATE(billMst.billDate), billMst.billAmount, billMst.createdBy, billMst.createdDate, billMst.status, " +
+            "ven.name, DATE(billMst.billDate), billMst.billAmount, billMst.createdBy, billMst.createdDate,billMst.userId, billMst.status, " +
             "CASE billMst.status " +
             "    WHEN 'P' THEN 'Pending' " +
             "    WHEN 'A' THEN 'Approved' " +
