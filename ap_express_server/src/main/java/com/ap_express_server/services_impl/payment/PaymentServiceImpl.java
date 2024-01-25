@@ -1,4 +1,5 @@
 package com.ap_express_server.services_impl.payment;
+import com.ap_express_server.common_utitlity.CustomException;
 import com.ap_express_server.common_utitlity.Status;
 import com.ap_express_server.models.bill.BillDto;
 import com.ap_express_server.models.bill.BillMaster;
@@ -10,6 +11,7 @@ import com.ap_express_server.repository.payment.PaymentMethodRepository;
 import com.ap_express_server.repository.payment.PaymentRepository;
 import com.ap_express_server.repository.payment.PaymentTermRepository;
 import com.ap_express_server.service.payment.PaymentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -65,7 +67,9 @@ public class PaymentServiceImpl implements PaymentService {
         Optional <BillMaster> billMaster = this.billRepository.getBillDetailById(payment.getBillId());
         if(billMaster.isPresent()){
             BillMaster bill = billMaster.get();
-            bill.setBillBalance(payment.getBillBalance());
+            float balance = bill.getBillBalance() - payment.getAmount();
+            bill.setBillBalance(balance);
+            payment.setBillBalance(balance);
             bill.setPaymentAmount(payment.getAmount());
             billRepository.save(bill);
         }
@@ -95,12 +99,20 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public ResponseEntity<?> voidPayment(Integer paymentId) {
+    public ResponseEntity<?> voidPayment(Long paymentId) throws CustomException {
         Optional <Payment> payment = paymentRepository.findById(paymentId);
         if(payment.isPresent()){
             Payment pay = payment.get();
-            pay.setStatus(Status.STATUS_DELETED);
+            Optional <BillMaster> bill = this.billRepository.getBillDetailById(pay.getBillId());
+            if(bill.isPresent()){
+                BillMaster billMaster = bill.get();
+                billMaster.setBillBalance(billMaster.getBillBalance() - pay.getAmount());
+                billRepository.save(billMaster);
+            }
+            pay.setStatus(Status.STATUS_VOID);
             paymentRepository.save(pay);
+        } else {
+            return new ResponseEntity<>("Payment not found", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok().build();
     }

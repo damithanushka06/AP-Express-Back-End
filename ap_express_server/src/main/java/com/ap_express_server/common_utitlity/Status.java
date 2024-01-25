@@ -7,4 +7,6 @@ public class Status {
     public static char STATUS_REJECTED = 'R';
     public static char STATUS_DELETED = 'D';
 
+    public static char STATUS_VOID = 'V';
+
 }

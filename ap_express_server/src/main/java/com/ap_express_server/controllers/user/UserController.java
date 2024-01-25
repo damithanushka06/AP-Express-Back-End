@@ -6,7 +6,9 @@ import com.ap_express_server.models.user.UserDTO;
 import com.ap_express_server.repository.appGroup.ApprovalGroupRepo;
 import com.ap_express_server.repository.role.RoleRepository;
 import com.ap_express_server.service.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -23,6 +25,9 @@ public class UserController {
     private final RoleRepository roleRepository;
 
     private final ApprovalGroupRepo approvalGroupRepo;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     public UserController(UserService userService, RoleRepository roleRepository, ApprovalGroupRepo approvalGroupRepo) {
         this.userService = userService;
@@ -44,6 +49,7 @@ public class UserController {
         }
         user.setEmployeeNo(userDTO.getEmployeeNo());
         user.setRoleId(userDTO.getRoleId());
+        user.setPassword(encoder.encode(user.getPassword()));
         user.setApprovalGroupId(userDTO.getApprovalGroupId());
         user.setCreatedDate(LocalDate.now());
         Optional<Role> optionalRole = roleRepository.findById(userDTO.getRoleId());

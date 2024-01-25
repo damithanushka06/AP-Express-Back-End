@@ -29,7 +29,7 @@ public interface BillRepository extends JpaRepository<BillMaster, Integer> {
      * @return A list of BillDto objects representing the bills.
      */
     @Query("SELECT NEW com.ap_express_server.models.bill.BillDto(billMst.id, billMst.billNo, billMst.vendorId, " +
-            "ven.name, DATE(billMst.billDate), billMst.billAmount, billMst.createdBy, billMst.createdDate, billMst.status, " +
+            "ven.name, DATE(billMst.billDate), billMst.billAmount, billMst.createdBy, billMst.createdDate,billMst.userId, billMst.status, " +
             "CASE billMst.status " +
             "    WHEN 'P' THEN 'Pending' " +
             "    WHEN 'A' THEN 'Approved' " +
@@ -47,7 +47,7 @@ public interface BillRepository extends JpaRepository<BillMaster, Integer> {
      * @return An Optional containing the BillDto object with the payment amount and bill balance, or empty if not found.
      */
     @Query("select new com.ap_express_server.models.bill.BillDto(bill.paymentAmount, bill.billBalance) " +
-            "from BillMaster bill")
+            "from BillMaster bill where bill.id = :billId")
     Optional<BillDto> getBillBalance(@Param("billId") Integer billId);
 
     /**

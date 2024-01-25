@@ -1,4 +1,5 @@
 package com.ap_express_server.controllers.payment;
+import com.ap_express_server.common_utitlity.CustomException;
 import com.ap_express_server.constant.Notification.HttpUrlConstants;
 import com.ap_express_server.models.bill.BillDto;
 import com.ap_express_server.models.dropdown.DropDownDto;
@@ -78,7 +79,7 @@ public class PaymentController {
      * @return ResponseEntity to contains http status
      */
     @DeleteMapping("payment/void_payment")
-    private ResponseEntity<?> voidPayment(@RequestParam Integer paymentId){
+    private ResponseEntity<?> voidPayment(@RequestParam Long paymentId) throws CustomException {
         return paymentService.voidPayment(paymentId);
     }
 }

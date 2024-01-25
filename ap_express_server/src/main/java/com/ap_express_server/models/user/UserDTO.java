@@ -69,4 +69,7 @@ public class UserDTO {
         this.approvalGroupId = approvalGroupId;
         this.profilePicture = profilePicture;
     }
+
+    public UserDTO() {
+    }
 }

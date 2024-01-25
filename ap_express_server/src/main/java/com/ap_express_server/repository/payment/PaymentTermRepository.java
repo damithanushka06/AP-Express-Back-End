@@ -8,4 +8,6 @@ import java.util.List;
 public interface PaymentTermRepository extends JpaRepository<PaymentTerm, Integer> {
     @Query("SELECT new com.ap_express_server.models.dropdown.DropDownDto(pTerm.id, pTerm.name) FROM PaymentTerm pTerm")
     List<DropDownDto> getPaymentTermList();
+
+    PaymentTerm findPaymentTermById(Integer id);
 }

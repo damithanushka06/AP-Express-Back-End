@@ -19,7 +19,7 @@ public class BillMaster {
     private Integer id;
 
     private String billNo;
-    private int vendorId;
+    private Integer vendorId;
 
     private Date billDate;
 
@@ -49,6 +49,8 @@ public class BillMaster {
 
     private int poId;
 
+    private int userId;
+
     @Column(name = "term_id", nullable = true)
     private int termId;
 
@@ -56,6 +58,9 @@ public class BillMaster {
     @Transient
     private transient String statusName;
 
+    private transient String vendorName;
+
+    private transient String paymentTermName;
     @Transient
     private transient List<WorkflowConfig> workflowDetails = new ArrayList<>();
 
@@ -77,7 +82,7 @@ public class BillMaster {
                       char status, String statusName, List<WorkflowConfig> workflowDetails,
                       List<BillItemInformation> billItemInformation,
                       List<BillAccountInformation> billAccountInformation, List<MultipartFile> files,
-                      List<BillAdditionalAttachment> attachments, int termId, int poId) {
+                      List<BillAdditionalAttachment> attachments, int termId, int poId, int userId) {
         this.id = id;
         this.billNo = billNo;
         this.vendorId = vendorId;
@@ -100,6 +105,7 @@ public class BillMaster {
         this.attachments = attachments;
         this.poId = poId;
         this.termId = termId;
+        this.userId = userId;
     }
 
     public BillMaster() {

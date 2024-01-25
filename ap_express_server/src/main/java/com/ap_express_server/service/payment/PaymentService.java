@@ -1,4 +1,5 @@
 package com.ap_express_server.service.payment;
+import com.ap_express_server.common_utitlity.CustomException;
 import com.ap_express_server.models.bill.BillDto;
 import com.ap_express_server.models.dropdown.DropDownDto;
 import com.ap_express_server.models.payment.Payment;
@@ -55,5 +56,5 @@ public interface PaymentService {
      * @param paymentId The ID of the payment to void.
      * @return A ResponseEntity representing the HTTP response for the void operation.
      */
-    ResponseEntity<?> voidPayment(Integer paymentId);
+    ResponseEntity<?> voidPayment(Long paymentId) throws CustomException;
 }

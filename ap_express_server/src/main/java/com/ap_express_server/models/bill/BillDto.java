@@ -30,8 +30,27 @@ public class BillDto {
 
     private float billBalance;
 
+    private int userId;
+
     public BillDto(Integer id, String billNo, int vendorId, String vendorName, Date billDate,
-                   float billAmount, String createdBy, LocalDate createdDate, char status, String statusName) {
+                   float billAmount, String createdBy, LocalDate createdDate, int userId, char status, String statusName) {
+        this.id = id;
+        this.billNo = billNo;
+        this.vendorId = vendorId;
+        this.vendorName = vendorName;
+        this.billDate = billDate;
+        this.billAmount = billAmount;
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
+        this.status = status;
+        this.userId = userId;
+        this.statusName = statusName;
+
+    }
+
+    public BillDto(Integer id, String billNo, int vendorId, String vendorName, Date billDate, float billAmount, String
+            createdBy, LocalDate createdDate, char status, String statusName, float paymentAmount,
+                   float billBalance, Integer userId) {
         this.id = id;
         this.billNo = billNo;
         this.vendorId = vendorId;
@@ -42,6 +61,9 @@ public class BillDto {
         this.createdDate = createdDate;
         this.status = status;
         this.statusName = statusName;
+        this.paymentAmount = paymentAmount;
+        this.billBalance = billBalance;
+        this.userId = userId;
     }
 
     public BillDto(float paymentAmount, float billBalance) {

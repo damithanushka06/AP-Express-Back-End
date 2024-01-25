@@ -1,5 +1,5 @@
 package com.ap_express_server.controllers.serve_dropdown_list;
-import com.ap_express_server.exception.CustomException;
+import com.ap_express_server.common_utitlity.CustomException;
 import com.ap_express_server.models.common.CommonResponse;
 import com.ap_express_server.models.dropdown.DropDownDto;
 import com.ap_express_server.service.account.AccountService;

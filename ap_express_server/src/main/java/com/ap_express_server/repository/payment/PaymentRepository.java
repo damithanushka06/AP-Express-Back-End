@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
-public interface PaymentRepository extends JpaRepository<Payment, Integer> {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     /**
      * Retrieves a list of PaymentDto objects containing payment details, vendor information, and bill information.
@@ -21,7 +21,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
             "            ELSE 'Unknown'END) from Payment payment join Vendor ven on ven.id = payment.vendorId " +
             "join BillMaster bill on bill.id = payment.billId")
     List<PaymentDto> getAllPayments();
-
-
 
 }
